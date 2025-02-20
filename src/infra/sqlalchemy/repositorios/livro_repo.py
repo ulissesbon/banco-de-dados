@@ -11,7 +11,7 @@ class RepositorioLivro():
         self.db = db
 
 
-    def criar(self, livro: schemas.Livro):
+    def criar(self, livro: models.Livro):
         db_livro = models.Livro(
             titulo      = livro.titulo,
             num_pags    = livro.num_pags,
@@ -48,7 +48,7 @@ class RepositorioLivro():
         self.db.commit()
 
 
-    def editar(self, id_livro: int, livro: schemas.Livro):
+    def editar(self, id_livro: int, livro: schemas.LivroSchema):
         
         livro_existente = self.db.query(models.Livro).filter(models.Livro.id == livro.id).first()
         if not livro_existente:

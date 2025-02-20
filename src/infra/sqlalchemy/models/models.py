@@ -5,6 +5,14 @@ from sqlalchemy import Column, Date, Integer, String, Float, Boolean, ForeignKey
 class Usuario(Base):
     __tablename__ = 'usuario'
 
+    def __init__(self, nome: str, telefone: str, logradouro: str, numero: int, cep: str, bairro: str):
+        self.nome = nome
+        self.telefone = telefone
+        self.logradouro = logradouro
+        self.numero = numero
+        self.cep = cep
+        self.bairro = bairro
+
     id          = Column(Integer, primary_key= True, index= True, autoincrement= True)
     nome        = Column(String)
     telefone    = Column(String)
@@ -18,6 +26,15 @@ class Usuario(Base):
 
 class Editora(Base):
     __tablename__ = 'editora'
+    
+    def __init__(self, nome: str, telefone: str, logradouro: str, numero: int, cep: str, bairro: str):
+        self.nome = nome
+        self.telefone = telefone
+        self.logradouro = logradouro
+        self.numero = numero
+        self.cep = cep
+        self.bairro = bairro
+
 
     id          = Column(Integer, primary_key= True, index= True, autoincrement= True)
     nome        = Column(String)
@@ -32,6 +49,12 @@ class Editora(Base):
 
 class Livro(Base):
     __tablename__ = 'livro'
+
+    def __init__(self, titulo: str, num_pags: int, editora_id: int, colecao: str = None):
+        self.titulo = titulo
+        self.num_pags = num_pags
+        self.colecao = colecao
+        self.editora_id = editora_id
 
     id          = Column(Integer, primary_key= True, index= True, autoincrement= True)
     titulo      = Column(String)

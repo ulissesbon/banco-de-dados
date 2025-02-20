@@ -2,14 +2,14 @@ from typing import List
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, HTTPException, Depends
 from src.infra.sqlalchemy.config.database import get_db
-from src.schemas.schemas import Emprestimo, Usuario, UsuarioSimples
+from src.schemas.schemas import EmprestimoSchema, UsuarioSchema, UsuarioSimplesSchema
 from src.infra.sqlalchemy.repositorios.usuario_repo import RepositorioUsuario
 from src.infra.sqlalchemy.repositorios.emprestimo_repo import RepositorioEmprestimo
 
-router = APIRouter(prefix="/usuarios")
+router = APIRouter(prefix="/usuarios", tags=['usuarios'])
 
-@router.post('/add', response_model=UsuarioSimples)
-def adicionar_usuario(usuario: Usuario, db: Session = Depends(get_db)):
+@router.post('/add', response_model=UsuarioSimplesSchema)
+def adicionar_usuario(usuario: UsuarioSchema, db: Session = Depends(get_db)):
     usuario_localizado = RepositorioUsuario(db).obter_por_telefone(usuario.telefone)
 
     if usuario_localizado:
@@ -18,7 +18,7 @@ def adicionar_usuario(usuario: Usuario, db: Session = Depends(get_db)):
 
     return usuario_criado
 
-@router.get('/all', response_model=List[UsuarioSimples])
+@router.get('/all', response_model=List[UsuarioSimplesSchema])
 def listar(db: Session = Depends(get_db)):
 
     return RepositorioUsuario(db).listar()
@@ -38,13 +38,13 @@ def deletar_usuario(usuario_id: int, db: Session= Depends(get_db)):
     return{'Msg': 'Usuario removido com sucesso'}
 
 @router.put('/edit/{usuario_id}')
-def atualizar_produto(usuario_id: int, usuario: Usuario, db: Session= Depends(get_db)):
+def atualizar_produto(usuario_id: int, usuario: UsuarioSchema, db: Session= Depends(get_db)):
     usuario.id = usuario_id
     RepositorioUsuario(db).editar(usuario_id, usuario)
 
     return usuario
 
-@router.get('/emprestimos/{usuario_id}', response_model=List[Emprestimo])
+@router.get('/emprestimos/{usuario_id}', response_model=List[EmprestimoSchema])
 def listar_emprestimos_usuario(usuario_id: int, db: Session = Depends(get_db)):
     usuario = RepositorioUsuario(db).obter(usuario_id)
     if not usuario:

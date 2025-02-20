@@ -3,8 +3,7 @@ from pydantic import BaseModel
 from typing import Optional, List
 
 
-class Usuario(BaseModel):
-    id          : Optional[int] = None
+class UsuarioSchema(BaseModel):
     nome        : str
     telefone    : str
     logradouro  : str
@@ -15,7 +14,7 @@ class Usuario(BaseModel):
     class Config:
         orm_mode = True
 
-class UsuarioSimples(BaseModel):
+class UsuarioSimplesSchema(BaseModel):
     id: Optional[int] = None
     nome: str
     telefone: str
@@ -23,14 +22,7 @@ class UsuarioSimples(BaseModel):
     class Config:
         orm_mode = True
 
-class EditoraSimples(BaseModel):
-    id          : Optional[int] = None
-    nome        : str
-
-    class Config:
-        orm_mode = True
-
-class LivroSimples(BaseModel):
+class LivroSimplesSchema(BaseModel):
     id              : Optional[int] = None
     titulo          : str
     editora_id      : int
@@ -38,32 +30,46 @@ class LivroSimples(BaseModel):
     class Config:
         orm_mode = True
 
-class Editora(BaseModel):
+class EditoraSimplesSchema(BaseModel):
     id          : Optional[int] = None
+    nome        : str
+    livros      : List[LivroSimplesSchema] = []
+
+    class Config:
+        orm_mode = True
+
+class ResponseEditoraSchema(BaseModel):
+    id          : Optional[int] = None
+    nome        : str
+    telefone    : str
+    cep         : str
+    numero      : int
+    livros      : List[LivroSimplesSchema] = []
+
+    class Config:
+        orm_mode = True
+
+class EditoraSchema(BaseModel):
     nome        : str
     telefone    : str
     logradouro  : str
     numero      : int
     cep         : str
     bairro      : str
-    livros      : List[LivroSimples] = []
 
     class Config:
         orm_mode = True
 
-class Livro(BaseModel):
-    id              : Optional[int] = None
+class LivroSchema(BaseModel):
     titulo          : str
     num_pags        : int
     colecao         : Optional[str] = None
-    editora_id      : int
-
-    editora         : Optional[Editora] = None
+    editora_id      : Optional[int]
 
     class Config:
         orm_mode = True
 
-class Emprestimo(BaseModel):
+class EmprestimoSchema(BaseModel):
     livro_id        : int
     usuario_id      : int
     data_emprestimo : date

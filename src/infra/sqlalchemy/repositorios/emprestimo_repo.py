@@ -9,7 +9,7 @@ class RepositorioEmprestimo():
     def __init__(self, db: Session):
         self.db = db
 
-    def criar(self, emprestimo: schemas.Emprestimo):
+    def criar(self, emprestimo: schemas.EmprestimoSchema):
         db_emprestimo = models.Emprestimo(
             livro_id        = emprestimo.livro_id,
             usuario_id      = emprestimo.usuario_id,
@@ -38,7 +38,7 @@ class RepositorioEmprestimo():
         self.db.execute(stmt)
         self.db.commit()
 
-    def editar(self, id_emprestimo: int, emprestimo: schemas.Emprestimo):
+    def editar(self, id_emprestimo: int, emprestimo: schemas.EmprestimoSchema):
         emprestimo_existente = self.db.query(models.Emprestimo).filter(models.Emprestimo.id == emprestimo.id).first()
         if not emprestimo_existente:
             raise HTTPException(status_code=404, detail='Empréstimo não encontrado')
@@ -57,7 +57,7 @@ class RepositorioEmprestimo():
         stmt = select(models.Emprestimo).where(models.Emprestimo.usuario_id == usuario_id)
         emprestimos = self.db.execute(stmt).scalars().all()
         if not emprestimos:
-            return None
+            return []
         return emprestimos
     
     def listar_por_livro(self, livro_id: int):

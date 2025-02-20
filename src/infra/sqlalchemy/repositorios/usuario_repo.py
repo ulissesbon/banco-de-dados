@@ -11,7 +11,7 @@ class RepositorioUsuario():
         self.db = db
 
 
-    def criar(self, usuario: schemas.Usuario):
+    def criar(self, usuario: schemas.UsuarioSchema):
         db_usuario = models.Usuario(
             nome        = usuario.nome,
             telefone    = usuario.telefone,
@@ -54,7 +54,7 @@ class RepositorioUsuario():
         self.db.commit()
 
 
-    def editar(self, id_usuario: int, usuario: schemas.Usuario):
+    def editar(self, id_usuario: int, usuario: schemas.UsuarioSchema):
         
         usuario_existente = self.db.query(models.Usuario).filter(models.Usuario.id == usuario.id).first()
         if not usuario_existente:

@@ -11,7 +11,7 @@ class RepositorioEditora():
         self.db = db
 
 
-    def criar(self, editora: schemas.Editora):
+    def criar(self, editora: models.Editora):
         db_editora = models.Editora(
             nome        = editora.nome,
             telefone    = editora.telefone,
@@ -56,7 +56,7 @@ class RepositorioEditora():
         self.db.commit()
 
 
-    def editar(self, id_editora: int, editora: schemas.Editora):
+    def editar(self, id_editora: int, editora: schemas.EditoraSchema):
         
         editora_existente = self.db.query(models.Editora).filter(models.Editora.id == editora.id).first()
         if not editora_existente:
