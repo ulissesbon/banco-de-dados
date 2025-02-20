@@ -34,7 +34,7 @@ def atualizar_livro(livro_id: int, livro: Livro, db: Session = Depends(get_db)):
     RepositorioLivro(db).editar(livro_id, livro)
     return livro
 
-@router.get('/livro/{livro_id}/emprestimos', response_model=List[Emprestimo])
+@router.get('/emprestimos/{livro_id}', response_model=List[Emprestimo])
 def listar_emprestimos_livro(livro_id: int, db: Session = Depends(get_db)):
     livro = RepositorioLivro(db).obter_por_id(livro_id)
     if not livro:
