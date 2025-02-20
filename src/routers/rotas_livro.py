@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from src.infra.sqlalchemy.config.database import get_db
 from src.schemas.schemas import Emprestimo, Livro, LivroSimples
 from src.infra.sqlalchemy.repositorios.livro_repo import RepositorioLivro
-from infra.sqlalchemy.repositorios.emprestimo_repo import RepositorioEmprestimo
+from src.infra.sqlalchemy.repositorios.emprestimo_repo import RepositorioEmprestimo
 
 router = APIRouter(prefix="/livro")
 

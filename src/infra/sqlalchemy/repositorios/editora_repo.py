@@ -30,6 +30,8 @@ class RepositorioEditora():
     def listar(self):
         stmt = select(models.Editora)
         editoras = self.db.execute(stmt).scalars().all()
+        if not editoras:
+            return None
         return editoras
 
 
