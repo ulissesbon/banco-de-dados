@@ -38,6 +38,8 @@ class Livro(Base):
     num_pags    = Column(Integer)
     colecao     = Column(String)
 
+    emprestimos = relationship('Emprestimo', back_populates='livro')
+
     editora_id  = Column(Integer, ForeignKey('editora.id', name= 'fk_editora'))
     editora     = relationship('Editora', foreign_keys=[editora_id], back_populates= 'livros')
 

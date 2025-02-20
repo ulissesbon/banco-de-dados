@@ -1,9 +1,10 @@
 from typing import List
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, HTTPException, Depends
-from src.schemas.schemas import Livro, LivroSimples
 from src.infra.sqlalchemy.config.database import get_db
+from src.schemas.schemas import Emprestimo, Livro, LivroSimples
 from src.infra.sqlalchemy.repositorios.livro_repo import RepositorioLivro
+from infra.sqlalchemy.repositorios.emprestimo_repo import RepositorioEmprestimo
 
 router = APIRouter(prefix="/livro")
 
@@ -32,3 +33,10 @@ def atualizar_livro(livro_id: int, livro: Livro, db: Session = Depends(get_db)):
     livro.id = livro_id
     RepositorioLivro(db).editar(livro_id, livro)
     return livro
+
+@router.get('/livro/{livro_id}/emprestimos', response_model=List[Emprestimo])
+def listar_emprestimos_livro(livro_id: int, db: Session = Depends(get_db)):
+    livro = RepositorioLivro(db).obter_por_id(livro_id)
+    if not livro:
+        raise HTTPException(status_code=404, detail='Livro não encontrado')
+    return RepositorioEmprestimo(db).listar_por_livro(livro_id)

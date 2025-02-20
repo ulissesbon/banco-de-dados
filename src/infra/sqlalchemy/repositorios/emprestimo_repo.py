@@ -59,3 +59,10 @@ class RepositorioEmprestimo():
         if not emprestimos:
             return None
         return emprestimos
+    
+    def listar_por_livro(self, livro_id: int):
+        stmt = select(models.Emprestimo).where(models.Emprestimo.livro_id == livro_id)
+        emprestimos = self.db.execute(stmt).scalars().all()
+        if not emprestimos:
+            return None
+        return emprestimos
